@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import { Debounce } from 'react-throttle';
 import logo from './logo.svg';
 import './App.css';
-import Emojis from './Emojis.js';
+import MapInput from './MapInput.js';
 import emojiList from './emojiList.json';
 import { debounce, copyToClipBoard } from './helpers.js';
 import Notifications, {notify} from 'react-notify-toast';
@@ -18,9 +18,9 @@ class App extends Component {
             input: '',
             currentEmoji: '',
             debouncedFunction: debounce(function (newArray){
-              this.setState({
-                list: newArray
-              })
+                this.setState({
+                    list: newArray
+                })
             }, 750, this)
         }
         //setuping your own custom functions
@@ -30,41 +30,41 @@ class App extends Component {
 
     //method
     handleEmojiClick (event){
-      var emoji = event.target.innerHTML;
-      var emojiNode = event.target;
+        let emoji = event.target.innerHTML;
+        let emojiNode = event.target;
 
-      // add CSS to current emoji
-      emojiNode.style.backgroundColor = "skyBlue";
-      this.setState({
-        currentEmoji : emojiNode
-      });  
+        // add CSS to current emoji
+        emojiNode.style.backgroundColor = "skyBlue";
+        this.setState({
+            currentEmoji : emojiNode
+        });  
 
-      
-      if(this.state.currentEmoji){
-        this.state.currentEmoji.removeAttribute('style');
-     }
+        // remove CSS from current emojis
+        if(this.state.currentEmoji){
+            this.state.currentEmoji.removeAttribute('style');
+        }
 
-      copyToClipBoard(emoji);
-      notify.show('Emoji Copied!');
+        copyToClipBoard(emoji);
+        notify.show('Emoji Copied!');
     }
 
     inputHandler (event) {
-      //updating the state/value of input 
-      var input = event.target.value.toLowerCase();
+        //updating the state/value of input 
+        let input = event.target.value.toLowerCase();
 
-      var newEmojiList = emojiList.filter(function (emojiObject){
+        let newEmojiList = emojiList.filter(function (emojiObject){
             if (emojiObject.keywords.includes(input)){
-                if(input === '') return;
-                else return emojiObject;
+                if(input === '') return
+                else return emojiObject
             }
-      })
+        })
 
-      this.setState({
-        input : input
-      })
+        this.setState({
+            input : input
+        })
 
-      this.state.debouncedFunction(newEmojiList);
-  
+        this.state.debouncedFunction(newEmojiList);
+
     }
     render () {
         return (
@@ -83,12 +83,12 @@ class App extends Component {
                 <div className="main">
                     <input 
                         className="input"
-                        placeholder="Type something"
+                        placeholder="Type here to search for emoji"
                         onChange={this.inputHandler}
                         value={this.state.input}
                     />
-                    <div id="emojis">
-                        {<Emojis 
+                    <div id="filterEmojis">
+                        {<MapInput 
                             parentState={this.state.list}
                             handleEmojiClick={this.handleEmojiClick}
                         />}
