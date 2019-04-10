@@ -19,7 +19,7 @@ class App extends Component {
             debouncedFunction: debounce(function (newArray){
                 this.setState({
                     list: newArray
-                })
+                });
             }, 750, this)
         }
         //setuping your own custom functions
@@ -28,6 +28,25 @@ class App extends Component {
     }
 
     //method
+    inputHandler (event) {
+        //updating the state/value of input 
+        let input = event.target.value.toLowerCase();
+
+        let newEmojiList = emojiList.filter(function (emojiObject){
+            if (emojiObject.keywords.includes(input)){
+                if(input === '') return
+                else return emojiObject
+            }
+        });
+
+        this.setState({
+            input : input
+        });
+
+        this.state.debouncedFunction(newEmojiList);
+
+    }
+
     handleEmojiClick (event){
         let emoji = event.target.innerHTML;
         let emojiNode = event.target;
@@ -47,24 +66,6 @@ class App extends Component {
         notify.show('Emoji Copied!');
     }
 
-    inputHandler (event) {
-        //updating the state/value of input 
-        let input = event.target.value.toLowerCase();
-
-        let newEmojiList = emojiList.filter(function (emojiObject){
-            if (emojiObject.keywords.includes(input)){
-                if(input === '') return
-                else return emojiObject
-            }
-        })
-
-        this.setState({
-            input : input
-        })
-
-        this.state.debouncedFunction(newEmojiList);
-
-    }
     render () {
         return (
             <div>
@@ -94,7 +95,7 @@ class App extends Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
