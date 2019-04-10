@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 //import { Debounce } from 'react-throttle';
-import logo from './logo.svg';
 import './App.css';
 import MapInput from './MapInput.js';
 import emojiList from './emojiList.json';
